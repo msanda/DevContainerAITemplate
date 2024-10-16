@@ -1,9 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key='YOUR_API_KEY')
 
 # Set your OpenAI API key
-openai.api_key = 'YOUR_API_KEY'
 
 app = FastAPI()
 
@@ -13,12 +14,10 @@ class Paragraph(BaseModel):
 @app.post("/analyze/")
 async def analyze_readability(paragraph: Paragraph):
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Choose your model here
-            messages=[
-                {"role": "user", "content": f"Analyze the following paragraph for readability:\n\n{paragraph.text}"}
-            ]
-        )
+        response = client.chat.completions.create(model="gpt-3.5-turbo",  # Choose your model here
+        messages=[
+            {"role": "user", "content": f"Analyze the following paragraph for readability:\n\n{paragraph.text}"}
+        ])
         analysis = response.choices[0].message.content
         return {"analysis": analysis}
     except Exception as e:
