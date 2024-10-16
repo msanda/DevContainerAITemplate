@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "disable-coverage",
+            "command": "bash ./disable-coverage.sh",
+            "type": "shell"
+        },
+        {
+            "label": "enable-coverage",
+            "command": "bash ./enable-coverage.sh",
+            "type": "shell"
+        }
+    ]
+}
